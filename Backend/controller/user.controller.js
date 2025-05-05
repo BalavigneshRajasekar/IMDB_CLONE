@@ -1,7 +1,8 @@
 const bcrypt = require("bcryptjs");
 const userService = require("../service/user.service");
+const Utilities = require("../utilities");
 class UserAuth {
-  async createUser() {
+  async createUser(req, res) {
     try {
       const { userName, email, password } = req.body;
 
@@ -16,12 +17,36 @@ class UserAuth {
         bcrypt.genSaltSync(10)
       );
       const newUser = {
-        username: userName,
+        userName: userName,
         email: email,
         password: hashedPassword,
       };
       await userService.createUser(newUser);
       res.status(201).json({ message: "User registered successfully" });
+    } catch (error) {
+      res.status(500).json({ message: error.message, error: "server error" });
+    }
+  }
+
+  async loginUser(req, res) {
+    try {
+      const { email, password } = req.body;
+      const isUserExisted = await userService.getUser({ email: email });
+      if (!isUserExisted) {
+        return res.status(400).json({ message: "user doesn't exist" });
+      }
+      const isMatch = await bcrypt.compare(password, isUserExisted.password);
+      if (!isMatch) {
+        return res
+          .status(401)
+          .json({ message: "Invalid password, please try again" });
+      }
+      //Create Log tokens
+      Utilities.generateLogToken(isUserExisted, res);
+      res.json({
+        message: "User logged in successfully",
+        isUserExisted,
+      });
     } catch (error) {
       res.status(500).json({ message: error.message, error: "server error" });
     }

@@ -5,6 +5,14 @@ const dbConnection = require("./dbConfig");
 const bodyParser = require("body-parser");
 
 const server = express();
+server.use(bodyParser.json());
+server.use(cors());
+server.use(express.urlencoded({ extended: true }));
+
+//Routes Files
+const userRouter = require("./routes/user.route");
+
+server.use("/api/user", userRouter);
 
 //Server start point
 
