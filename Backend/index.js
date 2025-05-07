@@ -3,6 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 const dbConnection = require("./dbConfig");
 const bodyParser = require("body-parser");
+const getMovies = require("./tmdbConfig");
 
 const server = express();
 server.use(bodyParser.json());
@@ -19,4 +20,5 @@ server.use("/api/user", userRouter);
 server.listen("3000", () => {
   console.log("server started");
   dbConnection(process.env.MONGO_URI);
+  getMovies();
 });
