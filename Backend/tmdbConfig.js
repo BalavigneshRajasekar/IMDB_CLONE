@@ -1,6 +1,6 @@
 const axios = require("axios");
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-const API_KEY = "c441c9e64fc83594c1b60b5d49b68535";
+const API_KEY = process.env.TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 
 // Endpoint to get popular movies
@@ -14,7 +14,7 @@ async function fetchPopularMovies(pages = 3) {
         page,
       },
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDQxYzllNjRmYzgzNTk0YzFiNjBiNWQ0OWI2ODUzNSIsIm5iZiI6MS43MzkyMTAzMzYzMDA5OTk5ZSs5LCJzdWIiOiI2N2FhM2U2MDRlOThmMjFiNDI2ZmFiMzkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.XchXkuddWH8UYNfz-P9Tl8D_4aXHfr9tU8Ta501qdnM`,
+        Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
       },
     });
     movies = movies.concat(response.data.results);
@@ -32,7 +32,7 @@ async function fetchMovieDetails(movieId) {
       append_to_response: "credits",
     },
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDQxYzllNjRmYzgzNTk0YzFiNjBiNWQ0OWI2ODUzNSIsIm5iZiI6MS43MzkyMTAzMzYzMDA5OTk5ZSs5LCJzdWIiOiI2N2FhM2U2MDRlOThmMjFiNDI2ZmFiMzkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.XchXkuddWH8UYNfz-P9Tl8D_4aXHfr9tU8Ta501qdnM`,
+      Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
     },
   });
   return response.data;
@@ -58,6 +58,7 @@ async function getMovies() {
 
       detailedMovies.push({
         title: details.title,
+        overview: details.overview,
         releaseDate: details.release_date,
         rating: details.vote_average,
         posterUrl: `https://image.tmdb.org/t/p/w500${details.poster_path}`,
