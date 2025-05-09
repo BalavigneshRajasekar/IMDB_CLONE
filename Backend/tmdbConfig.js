@@ -66,8 +66,6 @@ async function getMovies() {
         producers,
       });
     }
-
-    console.log(detailedMovies);
   } catch (error) {
     console.error("Error fetching movie data:", error.message);
   }
