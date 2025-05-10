@@ -1,4 +1,7 @@
 const axios = require("axios");
+const Movies = require("./models/movies.modal");
+const Actors = require("./models/actors.modal");
+const Producer = require("./models/producer.modal");
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const API_KEY = process.env.TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
