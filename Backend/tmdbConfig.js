@@ -1,7 +1,7 @@
 const axios = require("axios");
-const Movies = require("./models/movies.modal");
-const Actors = require("./models/actors.modal");
-const Producer = require("./models/producer.modal");
+const movieService = require("./service/movies.service");
+const actorService = require("./service/actor.service");
+const producerService = require("./service/producer.service");
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const API_KEY = process.env.TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -44,30 +44,55 @@ async function fetchMovieDetails(movieId) {
 async function getMovies() {
   try {
     const popularMovies = await fetchPopularMovies();
-    const detailedMovies = [];
 
     for (const movie of popularMovies) {
       const details = await fetchMovieDetails(movie.id);
+      const credits = details.credits;
 
-      // Extract top 5 cast members
-      const topCast = details.credits.cast
-        .slice(0, 5)
-        .map((actor) => actor.name);
+      // Handle actors
+      const actorIds = [];
+      for (const actor of credits.cast.slice(0, 5)) {
+        let existingActor = await actorService.findOne({ name: actor.name });
+        if (!existingActor) {
+          existingActor = await actorService.createActor({
+            actorName: actor.name,
+            gender: actor.gender === 1 ? "Female" : "Male",
+          });
+        }
+        actorIds.push(existingActor._id);
+      }
 
-      // Extract producers from crew
-      const producers = details.credits.crew
-        .filter((member) => member.job === "Producer")
-        .map((producer) => producer.name);
+      // Handle producers
+      const producerIds = [];
+      const producers = credits.crew.filter(
+        (member) => member.job === "Producer"
+      );
+      for (const producer of producers) {
+        let existingProducer = await producerService.findOne({
+          name: producer.name,
+        });
+        if (!existingProducer) {
+          existingProducer = await producerService.createProducer({
+            name: producer.name,
+            gender: producer.gender === 1 ? "Female" : "Male",
+          });
+        }
+        producerIds.push(existingProducer._id);
+      }
 
-      detailedMovies.push({
-        title: details.title,
-        overview: details.overview,
-        releaseDate: details.release_date,
-        rating: details.vote_average,
-        posterUrl: `https://image.tmdb.org/t/p/w500${details.poster_path}`,
-        cast: topCast,
-        producers,
-      });
+      // Save movie
+      const exists = await movieService.findOne({ title: details.title });
+      if (!exists) {
+        await movieService.createMovies({
+          movieName: details.title,
+          releaseDate: details.release_date,
+          ratings: details.vote_average,
+          description: details.overview,
+          movieImage: `https://image.tmdb.org/t/p/w500${details.poster_path}`,
+          actors: actorIds,
+          producers: producerIds,
+        });
+      }
     }
   } catch (error) {
     console.error("Error fetching movie data:", error.message);

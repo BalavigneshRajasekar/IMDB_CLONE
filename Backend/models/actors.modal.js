@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { collection } = require("./movies.modal");
 
 const actorSchema = new mongoose.Schema(
   {
