@@ -40,7 +40,9 @@ async function fetchMovieDetails(movieId) {
   });
   return response.data;
 }
-
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 async function getMovies() {
   try {
     const popularMovies = await fetchPopularMovies();
@@ -48,11 +50,14 @@ async function getMovies() {
     for (const movie of popularMovies) {
       const details = await fetchMovieDetails(movie.id);
       const credits = details.credits;
+      await sleep(300);
 
       // Handle actors
       const actorIds = [];
       for (const actor of credits.cast.slice(0, 5)) {
-        let existingActor = await actorService.findOne({ name: actor.name });
+        let existingActor = await actorService.findOne({
+          actorName: actor.name,
+        });
         if (!existingActor) {
           existingActor = await actorService.createActor({
             actorName: actor.name,
@@ -69,11 +74,11 @@ async function getMovies() {
       );
       for (const producer of producers) {
         let existingProducer = await producerService.findOne({
-          name: producer.name,
+          producerName: producer.name,
         });
         if (!existingProducer) {
           existingProducer = await producerService.createProducer({
-            name: producer.name,
+            producerName: producer.name,
             gender: producer.gender === 1 ? "Female" : "Male",
           });
         }
@@ -81,11 +86,11 @@ async function getMovies() {
       }
 
       // Save movie
-      const exists = await movieService.findOne({ title: details.title });
+      const exists = await movieService.findOne({ movieName: details.title });
       if (!exists) {
         await movieService.createMovies({
           movieName: details.title,
-          releaseDate: details.release_date,
+          releaseYear: details.release_date,
           ratings: details.vote_average,
           description: details.overview,
           movieImage: `https://image.tmdb.org/t/p/w500${details.poster_path}`,

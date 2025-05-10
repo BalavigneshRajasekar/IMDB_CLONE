@@ -1,4 +1,4 @@
-const Movies = require("../models/actors.modal");
+const Movies = require("../models/movies.modal");
 
 class MovieService {
   async findOne(value) {
@@ -9,10 +9,25 @@ class MovieService {
       throw new Error(e.message);
     }
   }
+  async find() {
+    try {
+      const movie = await Movies.find()
+        .populate({ path: "actors" })
+        .populate({ path: "producers" });
+      return movie;
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  }
+
   async createMovies(value) {
     try {
+      console.log(value);
+
       const movie = await Movies.create(value);
       movie.save();
+      console.log(movie);
+
       return movie;
     } catch (e) {
       throw new Error(e.message);

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const actorSchema = new mongoose.Schema(
   {
     actorName: { type: String, required: true },
-    gender: { type: string },
+    gender: { type: String },
   },
   { collection: "Actor", timestamps: true }
 );

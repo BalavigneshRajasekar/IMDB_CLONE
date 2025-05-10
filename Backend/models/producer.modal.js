@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const producerSchema = new mongoose.Schema(
   {
-    actorName: { type: String, required: true },
-    gender: { type: string },
+    producerName: { type: String, required: true },
+    gender: { type: String },
   },
   { collection: "Producer", timestamps: true }
 );

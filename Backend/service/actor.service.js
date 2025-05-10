@@ -13,6 +13,8 @@ class ActorService {
     try {
       const actor = await Actor.create(value);
       actor.save();
+      console.log(actor);
+
       return actor;
     } catch (e) {
       throw new Error(e.message);
