@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const movieReducer = createSlice({
-  name: movieReducer,
+  name: "movie Reducer",
   initialState: {
     movies: [],
     loginModal: false,
