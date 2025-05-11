@@ -10,7 +10,7 @@ function MovieList() {
   return (
     <div className="">
       {movies.length > 0 ? (
-        <div className="flex gap-3 flex-wrap justify-between p-2">
+        <div className="flex gap-3 flex-wrap justify-center items-center p-2">
           {movies.map((movie) => (
             <div
               onClick={() => navigate(`/${movie._id}`)}

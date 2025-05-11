@@ -1,16 +1,17 @@
+/* eslint-disable no-unused-vars */
 import { Form } from "antd";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { handleLoginModal } from "../store/movieReducer";
 
-function Login() {
+function Signup() {
   const dispatch = useDispatch();
   const submit = (values) => {
     console.log(values);
   };
   return (
     <div>
-      <h1 className="text-center text-yellow-500 p-3">Login</h1>
+      <h1 className="text-center text-yellow-500 p-3">SignUp</h1>
       <Form onFinish={submit}>
         <Form.Item
           name="email"
@@ -50,18 +51,17 @@ function Login() {
       </Form>
 
       <p className="mt-3 hover:cursor-pointer">
-        Don't have an account ?{" "}
+        Already have an account ?{" "}
         <button
           onClick={() =>
-            dispatch(handleLoginModal({ type: "Signup", data: true }))
+            dispatch(handleLoginModal({ type: "Login", data: true }))
           }
         >
-          Signup
+          Login
         </button>
       </p>
-      <p>Forgot password ?</p>
     </div>
   );
 }
 
-export default Login;
+export default Signup;
