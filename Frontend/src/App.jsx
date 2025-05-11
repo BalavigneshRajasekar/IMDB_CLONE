@@ -1,10 +1,10 @@
 import "./App.css";
+import Router from "./router";
 
 function App() {
   return (
     <>
-      <h1>IMDB ApP</h1>
-      <h1>By vicky</h1>
+      <Router />
     </>
   );
 }
