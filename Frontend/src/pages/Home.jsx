@@ -1,9 +1,16 @@
 import React from "react";
+import Navbar from "../components/Navbar";
+import MovieList from "../components/MovieList";
 
 function Home() {
   return (
     <div>
-      <h1>Home</h1>
+      <nav>
+        <Navbar />
+      </nav>
+      <main>
+        <MovieList />
+      </main>
     </div>
   );
 }

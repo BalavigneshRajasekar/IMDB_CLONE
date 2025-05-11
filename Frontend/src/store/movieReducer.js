@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const movieReducer = createSlice({
   name: movieReducer,
   initialState: {
     movies: [],
+    loginModal: false,
   },
   reducers: {
     setMovies: (state, action) => {},
