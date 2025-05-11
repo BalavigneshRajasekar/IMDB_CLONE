@@ -15,6 +15,16 @@ class MovieController {
       res.status(500).json({ message: "server error", error: e.message });
     }
   }
+
+  async getSingleMovie(req, res) {
+    const { id } = req.params;
+    try {
+      const movie = await movieService.findOne({ _id: id });
+      res.status(200).json({ message: "movies retrieved", data: movie });
+    } catch (e) {
+      res.status(500).json({ message: "server error", error: e.message });
+    }
+  }
 }
 
 module.exports = new MovieController();

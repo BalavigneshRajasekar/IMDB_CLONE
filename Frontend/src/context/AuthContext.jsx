@@ -8,7 +8,10 @@ const authContext = createContext();
 const authProvider = ({ children }) => {
   const [user, SetUser] = useState(null);
 
-  const login = () => {};
+  const login = () => {
+    // try {
+    // } catch (e) {}
+  };
   return (
     <>
       <authContext.Provider value={user}></authContext.Provider>

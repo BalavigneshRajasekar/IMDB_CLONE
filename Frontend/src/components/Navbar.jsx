@@ -2,7 +2,7 @@ import React from "react";
 
 function Navbar() {
   return (
-    <div className="bg-yellow-800 flex h-20 justify-between items-center p-3">
+    <div className="bg-yellow-400 flex h-20 justify-between items-center p-3">
       <div className="">
         <h1>IMDB APP</h1>
       </div>

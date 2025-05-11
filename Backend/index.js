@@ -6,7 +6,16 @@ const bodyParser = require("body-parser");
 
 const server = express();
 server.use(bodyParser.json());
-server.use(cors());
+server.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:5173"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+
+    // Allow all origins to connect to the server
+  })
+);
 server.use(express.urlencoded({ extended: true }));
 
 //Routes Files
