@@ -1,6 +1,6 @@
 const getTMDBMovies = require("../tmdbConfig");
 const movieService = require("../service/movies.service");
-const actorService = require("../controller/actor.controller");
+const actorService = require("../service/actor.service");
 const producerService = require("../service/producer.service");
 class MovieController {
   async getMovies(req, res) {
@@ -28,8 +28,19 @@ class MovieController {
   }
 
   async addMovies(req, res) {
-    const { movieName, releaseYear, description, actors, producers } = req.body;
+    const { movieName, releaseYear, description, actors, producers, ratings } =
+      req.body;
     try {
+      if (
+        !movieName &&
+        !releaseYear &&
+        !description &&
+        !actors &&
+        !producers &&
+        !ratings
+      ) {
+        return res.status(400).json({ message: "some field is missing" });
+      }
       //Convert the actors into an array
       const actorsArray = actors.split(",");
       const producerArray = producers.split(",");
@@ -38,11 +49,11 @@ class MovieController {
         //If actor already exist get their ID
         //If not create an actor and get the ID
         let existingActor = await actorService.findOne({
-          actorName: actor.name,
+          actorName: actor,
         });
         if (!existingActor) {
           existingActor = await actorService.createActor({
-            actorName: actor.name,
+            actorName: actor,
           });
         }
         actorIds.push(existingActor._id);
@@ -52,11 +63,11 @@ class MovieController {
       const producerIds = [];
       for (const producer of producerArray) {
         let existingProducer = await producerService.findOne({
-          producerName: producer.name,
+          producerName: producer,
         });
         if (!existingProducer) {
           existingProducer = await producerService.createProducer({
-            producerName: producer.name,
+            producerName: producer,
           });
         }
         producerIds.push(existingProducer._id);
@@ -67,7 +78,7 @@ class MovieController {
         releaseYear: releaseYear,
         ratings: ratings,
         description: description,
-        movieImage: ``,
+        movieImage: "movie",
         actors: actorIds,
         producers: producerIds,
       });

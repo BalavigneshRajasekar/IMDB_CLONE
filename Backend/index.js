@@ -1,10 +1,12 @@
 const express = require("express");
+const cookies = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config();
 const dbConnection = require("./dbConfig");
 const bodyParser = require("body-parser");
 
 const server = express();
+server.use(cookies());
 server.use(bodyParser.json());
 server.use(
   cors({

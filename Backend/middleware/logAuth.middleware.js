@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 const logAuth = (req, res, next) => {
+  console.log(req.cookies);
+
   const { token } = req.cookies;
 
   try {
