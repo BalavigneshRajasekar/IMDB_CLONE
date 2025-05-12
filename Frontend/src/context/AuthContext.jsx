@@ -23,9 +23,23 @@ const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   };
+  const logIn = async (values) => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.post("/api/user/logIn", values);
+      SetUser(response.data.user);
+      return response.data;
+    } catch (e) {
+      console.log(e);
+
+      throw new Error(e.response?.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
-      <authContext.Provider value={{ user, signUp, loading }}>
+      <authContext.Provider value={{ user, signUp, loading, logIn }}>
         {children}
       </authContext.Provider>
     </>

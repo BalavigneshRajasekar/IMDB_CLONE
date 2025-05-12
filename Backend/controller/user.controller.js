@@ -47,7 +47,7 @@ class UserAuth {
       Utilities.generateLogToken(isUserExisted, res);
       res.json({
         message: "User logged in successfully",
-        isUserExisted,
+        user: isUserExisted,
       });
     } catch (error) {
       res.status(500).json({ message: error.message, error: "server error" });

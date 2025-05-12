@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSingleMovies, removeSingleMovie } from "../store/movieReducer";
 import { FaStar } from "react-icons/fa6";
+import useAuth from "../Hooks/useAuth";
 function SinglePageView() {
+  const { user } = useAuth();
   const param = useParams();
   const navigate = useNavigate();
   const { singleMovie } = useSelector((store) => store.movie);
@@ -14,6 +16,17 @@ function SinglePageView() {
       dispatch(removeSingleMovie());
     };
   }, []);
+
+  const handleDelete = () => {
+    if (!user) {
+      alert("plz login to delete");
+    }
+  };
+  const edit = () => {
+    if (!user) {
+      alert("plz login to edit");
+    }
+  };
   return (
     <>
       <button onClick={() => navigate("/")}>Back</button>
@@ -53,9 +66,14 @@ function SinglePageView() {
                 </h3>
               ))}
             </div>
+
             <div className="mt-3 flex gap-3">
-              <button className="bg-yellow-500">Edit</button>
-              <button className="bg-red-500">Delete</button>
+              <button className="bg-yellow-500" onClick={edit}>
+                Edit
+              </button>
+              <button className="bg-red-500" onClick={handleDelete}>
+                Delete
+              </button>
             </div>
           </div>
         </div>

@@ -6,9 +6,14 @@ import useAuth from "../Hooks/useAuth";
 
 function Login() {
   const dispatch = useDispatch();
-  const { loading } = useAuth();
-  const submit = (values) => {
-    console.log(values);
+  const { loading, logIn } = useAuth();
+  const submit = async (values) => {
+    try {
+      const response = await logIn(values);
+      alert(response.message);
+    } catch (e) {
+      alert(e);
+    }
   };
   return (
     <div className={loading ? "opacity-50" : "opacity-100"}>
