@@ -4,6 +4,8 @@ const Utilities = require("../utilities");
 class UserAuth {
   async createUser(req, res) {
     try {
+      console.log(req.body);
+
       const { userName, email, password } = req.body;
 
       const existingUser = await userService.getUser({ email: email });
