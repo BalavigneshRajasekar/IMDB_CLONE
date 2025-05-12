@@ -28,7 +28,6 @@ class MovieService {
 
       const movie = await Movies.create(value);
       movie.save();
-      console.log(movie);
 
       return movie;
     } catch (e) {

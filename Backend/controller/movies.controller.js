@@ -1,6 +1,7 @@
 const getTMDBMovies = require("../tmdbConfig");
 const movieService = require("../service/movies.service");
-
+const actorService = require("../controller/actor.controller");
+const producerService = require("../service/producer.service");
 class MovieController {
   async getMovies(req, res) {
     try {
@@ -21,6 +22,57 @@ class MovieController {
     try {
       const movie = await movieService.findOne({ _id: id });
       res.status(200).json({ message: "movies retrieved", data: movie });
+    } catch (e) {
+      res.status(500).json({ message: "server error", error: e.message });
+    }
+  }
+
+  async addMovies(req, res) {
+    const { movieName, releaseYear, description, actors, producers } = req.body;
+    try {
+      //Convert the actors into an array
+      const actorsArray = actors.split(",");
+      const producerArray = producers.split(",");
+      const actorIds = [];
+      for (const actor of actorsArray) {
+        //If actor already exist get their ID
+        //If not create an actor and get the ID
+        let existingActor = await actorService.findOne({
+          actorName: actor.name,
+        });
+        if (!existingActor) {
+          existingActor = await actorService.createActor({
+            actorName: actor.name,
+          });
+        }
+        actorIds.push(existingActor._id);
+      }
+      //If producer already exist get their ID
+      //If not create an producer and get the ID
+      const producerIds = [];
+      for (const producer of producerArray) {
+        let existingProducer = await producerService.findOne({
+          producerName: producer.name,
+        });
+        if (!existingProducer) {
+          existingProducer = await producerService.createProducer({
+            producerName: producer.name,
+          });
+        }
+        producerIds.push(existingProducer._id);
+      }
+      //Create movie and add all data to movie collection
+      const newMovie = await movieService.createMovies({
+        movieName: movieName,
+        releaseYear: releaseYear,
+        ratings: ratings,
+        description: description,
+        movieImage: ``,
+        actors: actorIds,
+        producers: producerIds,
+      });
+
+      res.status(200).json({ message: "New movie added", movie: newMovie });
     } catch (e) {
       res.status(500).json({ message: "server error", error: e.message });
     }
