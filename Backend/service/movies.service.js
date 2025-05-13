@@ -34,6 +34,21 @@ class MovieService {
       throw new Error(e.message);
     }
   }
+  async editMovies(id, value) {
+    try {
+      console.log(value);
+
+      const movie = await Movies.findByIdAndUpdate(
+        id,
+        { $set: value },
+        { new: true, runValidators: true }
+      );
+
+      return movie;
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  }
 }
 
 module.exports = new MovieService();

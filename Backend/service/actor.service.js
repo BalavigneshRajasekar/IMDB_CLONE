@@ -20,6 +20,23 @@ class ActorService {
       throw new Error(e.message);
     }
   }
+  async editActors(value) {
+    try {
+      console.log(value);
+
+      const movie = await Actor.findOneAndUpdate(
+        value.actorName,
+        {
+          $set: value,
+        },
+        { new: true, runValidators: true }
+      );
+
+      return movie;
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  }
 }
 
 module.exports = new ActorService();

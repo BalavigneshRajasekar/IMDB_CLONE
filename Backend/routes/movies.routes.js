@@ -6,5 +6,5 @@ const logAuth = require("../middleware/logAuth.middleware");
 movieRouter.get("/get", movieController.getMovies);
 movieRouter.get("/get/movie/:id", movieController.getSingleMovie);
 movieRouter.post("/create/new", logAuth, movieController.addMovies);
-
+movieRouter.put("/edit/movies/:id", movieController.editMovies);
 module.exports = movieRouter;

@@ -88,6 +88,70 @@ class MovieController {
       res.status(500).json({ message: "server error", error: e.message });
     }
   }
+  async editMovies(req, res) {
+    const movieId = req.params.id;
+    const { movieName, releaseYear, description, actors, producers, ratings } =
+      req.body;
+    try {
+      if (
+        !movieName &&
+        !releaseYear &&
+        !description &&
+        !actors &&
+        !producers &&
+        !ratings
+      ) {
+        return res.status(400).json({ message: "some field is missing" });
+      }
+      //Convert the actors into an array
+      const actorsArray = actors.split(",");
+      const producerArray = producers.split(",");
+      const actorIds = [];
+      for (const actor of actorsArray) {
+        //If actor already exist get their ID
+        //If not create an actor and get the ID
+        let existingActor = await actorService.findOne({
+          actorName: actor,
+        });
+        if (!existingActor) {
+          existingActor = await actorService.editActors({
+            actorName: actor,
+          });
+        }
+        actorIds.push(existingActor._id);
+      }
+      //If producer already exist get their ID
+      //If not create an producer and get the ID
+      const producerIds = [];
+      for (const producer of producerArray) {
+        let existingProducer = await producerService.findOne({
+          producerName: producer,
+        });
+        if (!existingProducer) {
+          existingProducer = await producerService.editProducer({
+            producerName: producer,
+          });
+        }
+        producerIds.push(existingProducer._id);
+      }
+      //Create movie and add all data to movie collection
+      const newMovie = await movieService.editMovies(movieId, {
+        movieName: movieName,
+        releaseYear: releaseYear,
+        ratings: ratings,
+        description: description,
+        movieImage: "movie",
+        actors: actorIds,
+        producers: producerIds,
+      });
+
+      res
+        .status(200)
+        .json({ message: "movie edited success", movie: newMovie });
+    } catch (e) {
+      res.status(500).json({ message: "server error", error: e.message });
+    }
+  }
 }
 
 module.exports = new MovieController();
