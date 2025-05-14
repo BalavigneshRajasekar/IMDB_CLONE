@@ -5,10 +5,13 @@ import { handleLoginModal } from "../store/movieReducer";
 import Signup from "../pages/Signup";
 import Loading from "./Loading";
 import useAuth from "../Hooks/useAuth";
+import AddMovie from "../pages/AddMovie";
 function Modal() {
   const dispatch = useDispatch();
   const { loading } = useAuth();
-  const { isLoginModal, isSignUpModal } = useSelector((store) => store.movie);
+  const { isLoginModal, isSignUpModal, addMovieModal } = useSelector(
+    (store) => store.movie
+  );
 
   return (
     <div className="relative ">
@@ -24,6 +27,7 @@ function Modal() {
 
         {isLoginModal && <Login />}
         {isSignUpModal && <Signup />}
+        {addMovieModal && <AddMovie />}
         {loading && (
           <div className="loading">
             <Loading></Loading>

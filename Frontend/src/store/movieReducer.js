@@ -37,6 +37,8 @@ const movieReducer = createSlice({
     Modal: false,
     isLoginModal: false,
     isSignUpModal: false,
+    addMovieModal: false,
+    editMovieModal: false,
   },
   reducers: {
     removeSingleMovie: (state, action) => {
@@ -50,17 +52,38 @@ const movieReducer = createSlice({
           state.Modal = action.payload.data;
           state.isLoginModal = true;
           state.isSignUpModal = false;
+          state.addMovieModal = false;
+          state.editMovieModal = false;
           break;
         case "Signup":
           state.Modal = action.payload.data;
           state.isLoginModal = false;
           state.isSignUpModal = true;
+          state.addMovieModal = false;
+          state.editMovieModal = false;
           break;
         case "Close":
           state.Modal = action.payload.data;
           state.isLoginModal = false;
           state.isSignUpModal = false;
+          state.addMovieModal = false;
+          state.editMovieModal = false;
           break;
+        case "Add":
+          state.Modal = action.payload.data;
+          state.isLoginModal = false;
+          state.isSignUpModal = false;
+          state.addMovieModal = true;
+          state.editMovieModal = false;
+          break;
+        case "Edit":
+          state.Modal = action.payload.data;
+          state.isLoginModal = false;
+          state.isSignUpModal = false;
+          state.addMovieModal = false;
+          state.editMovieModal = true;
+          break;
+
         default:
           break;
       }

@@ -13,9 +13,19 @@ function Navbar() {
       </div>
       <div>
         {user ? (
-          <button className="bg-red-500 active:scale-75 transition-all">
-            Logout
-          </button>
+          <div>
+            <button
+              className="mr-6"
+              onClick={() =>
+                dispatch(handleLoginModal({ type: "Add", data: true }))
+              }
+            >
+              Add
+            </button>
+            <button className="bg-red-500 active:scale-75 transition-all">
+              Logout
+            </button>
+          </div>
         ) : (
           <button
             className="bg-black active:scale-75 transition-all"
