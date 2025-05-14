@@ -16,7 +16,7 @@ class Utilities {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
       secure: false,
-      sameSite: "none", // set to 'none' for cross-site requests
+      sameSite: "lax", // set to 'none' for cross-site requests
       path: "/", // set to '/' for all routes
     });
   }

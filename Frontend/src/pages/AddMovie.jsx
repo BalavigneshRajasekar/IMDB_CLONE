@@ -1,9 +1,16 @@
 import { Form, Input } from "antd";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { addNewMovies } from "../store/movieReducer";
 
 function AddMovie() {
-  const submit = (value) => {
-    console.log(value);
+  const dispatch = useDispatch();
+  const submit = async (value) => {
+    try {
+      dispatch(addNewMovies(value));
+    } catch (e) {
+      alert(e);
+    }
   };
   return (
     <div>

@@ -20,7 +20,7 @@ export const getSingleMovies = createAsyncThunk(
     try {
       console.log(id);
 
-      const response = await axiosInstance(`/api/movies/get/movie/${id}`);
+      const response = await axiosInstance.get(`/api/movies/get/movie/${id}`);
       console.log(response);
       return response.data;
     } catch (e) {
@@ -28,6 +28,25 @@ export const getSingleMovies = createAsyncThunk(
     }
   }
 );
+
+export const addNewMovies = createAsyncThunk(
+  "addMovies",
+  async (newMovie, thunkAPI) => {
+    console.log(newMovie);
+
+    try {
+      const response = await axiosInstance.post(
+        `/api/movies/create/new`,
+        newMovie
+      );
+      console.log(response);
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
 const movieReducer = createSlice({
   name: "movie Reducer",
   initialState: {
@@ -39,6 +58,7 @@ const movieReducer = createSlice({
     isSignUpModal: false,
     addMovieModal: false,
     editMovieModal: false,
+    addMovieLoading: false,
   },
   reducers: {
     removeSingleMovie: (state, action) => {
@@ -104,6 +124,17 @@ const movieReducer = createSlice({
       .addCase(getSingleMovies.fulfilled, (state, action) => {
         state.moviesLoading = false;
         state.singleMovie = action.payload.data;
+      })
+      .addCase(addNewMovies.pending, (state, action) => {
+        state.addMovieLoading = true;
+      })
+      .addCase(addNewMovies.fulfilled, (state, action) => {
+        state.addMovieLoading = false;
+        alert(action.payload.data.message);
+      })
+      .addCase(addNewMovies.rejected, (state, action) => {
+        state.addMovieLoading = false;
+        console.log(action.payload);
       });
   },
 });

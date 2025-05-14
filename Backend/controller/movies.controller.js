@@ -28,6 +28,8 @@ class MovieController {
   }
 
   async addMovies(req, res) {
+    console.log(req.body);
+
     const { movieName, releaseYear, description, actors, producers, ratings } =
       req.body;
     try {

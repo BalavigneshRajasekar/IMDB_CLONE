@@ -9,9 +9,8 @@ import AddMovie from "../pages/AddMovie";
 function Modal() {
   const dispatch = useDispatch();
   const { loading } = useAuth();
-  const { isLoginModal, isSignUpModal, addMovieModal } = useSelector(
-    (store) => store.movie
-  );
+  const { isLoginModal, isSignUpModal, addMovieModal, addMovieLoading } =
+    useSelector((store) => store.movie);
 
   return (
     <div className="relative ">
@@ -28,7 +27,7 @@ function Modal() {
         {isLoginModal && <Login />}
         {isSignUpModal && <Signup />}
         {addMovieModal && <AddMovie />}
-        {loading && (
+        {(loading || addMovieLoading) && (
           <div className="loading">
             <Loading></Loading>
           </div>

@@ -6,7 +6,6 @@ const dbConnection = require("./dbConfig");
 const bodyParser = require("body-parser");
 
 const server = express();
-server.use(cookies());
 server.use(bodyParser.json());
 server.use(
   cors({
@@ -18,6 +17,7 @@ server.use(
     // Allow all origins to connect to the server
   })
 );
+server.use(cookies());
 server.use(express.urlencoded({ extended: true }));
 
 //Routes Files
