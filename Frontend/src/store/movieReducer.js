@@ -40,6 +40,7 @@ export const addNewMovies = createAsyncThunk(
         newMovie
       );
       console.log(response);
+
       return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -130,7 +131,8 @@ const movieReducer = createSlice({
       })
       .addCase(addNewMovies.fulfilled, (state, action) => {
         state.addMovieLoading = false;
-        alert(action.payload.data.message);
+        alert(action.payload.message);
+        state.movies = [...state.movies, action.payload.movie];
       })
       .addCase(addNewMovies.rejected, (state, action) => {
         state.addMovieLoading = false;
