@@ -60,6 +60,7 @@ const movieReducer = createSlice({
     addMovieModal: false,
     editMovieModal: false,
     addMovieLoading: false,
+    tripCode: true,
   },
   reducers: {
     removeSingleMovie: (state, action) => {
