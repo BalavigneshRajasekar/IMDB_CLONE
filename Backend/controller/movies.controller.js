@@ -155,8 +155,9 @@ class MovieController {
     }
   }
 
-  async deleteMovie() {
+  async deleteMovie(req, res) {
     const { id } = req.params;
+
     try {
       const deletedMovie = await movieService.deleteMovies(id);
       res

@@ -1,14 +1,19 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getSingleMovies, removeSingleMovie } from "../store/movieReducer";
+import {
+  deleteMovies,
+  getSingleMovies,
+  removeSingleMovie,
+} from "../store/movieReducer";
 import { FaStar } from "react-icons/fa6";
 import useAuth from "../Hooks/useAuth";
 function SinglePageView() {
   const { user } = useAuth();
   const param = useParams();
   const navigate = useNavigate();
-  const { singleMovie } = useSelector((store) => store.movie);
+  const { singleMovie, deleteLoading } = useSelector((store) => store.movie);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSingleMovies(param.id));
@@ -17,9 +22,18 @@ function SinglePageView() {
     };
   }, []);
 
-  const handleDelete = () => {
-    if (!user) {
-      alert("plz login to delete");
+  const handleDelete = async (id) => {
+    console.log(id);
+
+    try {
+      if (!user) {
+        alert("plz login to delete");
+      } else {
+        const response = await dispatch(deleteMovies(id));
+        deleteLoading ? null : navigate("/");
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
   const edit = () => {
@@ -71,8 +85,11 @@ function SinglePageView() {
               <button className="bg-yellow-500" onClick={edit}>
                 Edit
               </button>
-              <button className="bg-red-500" onClick={handleDelete}>
-                Delete
+              <button
+                className="bg-red-500"
+                onClick={() => handleDelete(singleMovie._id)}
+              >
+                {deleteLoading ? "Deleting" : "Delete"}
               </button>
             </div>
           </div>

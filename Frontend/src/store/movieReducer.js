@@ -51,7 +51,9 @@ export const deleteMovies = createAsyncThunk(
   "deleteMovies",
   async (id, thunkAPI) => {
     try {
-      const response = await axiosInstance.delete(`/delete/movies/${id}`);
+      const response = await axiosInstance.delete(
+        `/api/movies/delete/movies/${id}`
+      );
       console.log(response);
 
       return response.data;
@@ -159,6 +161,7 @@ const movieReducer = createSlice({
       })
       .addCase(deleteMovies.fulfilled, (state, action) => {
         state.deleteLoading = false;
+        alert(action.payload.message);
         console.log(action.payload);
       })
       .addCase(deleteMovies.rejected, (state, action) => {
