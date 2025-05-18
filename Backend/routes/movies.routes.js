@@ -7,4 +7,5 @@ movieRouter.get("/get", movieController.getMovies);
 movieRouter.get("/get/movie/:id", movieController.getSingleMovie);
 movieRouter.post("/create/new", logAuth, movieController.addMovies);
 movieRouter.put("/edit/movies/:id", movieController.editMovies);
+movieRouter.delete("/delete/movies/:id", movieController.deleteMovie);
 module.exports = movieRouter;

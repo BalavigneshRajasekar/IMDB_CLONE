@@ -47,6 +47,19 @@ export const addNewMovies = createAsyncThunk(
     }
   }
 );
+export const deleteMovies = createAsyncThunk(
+  "deleteMovies",
+  async (id, thunkAPI) => {
+    try {
+      const response = await axiosInstance.delete(`/delete/movies/${id}`);
+      console.log(response);
+
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
 
 const movieReducer = createSlice({
   name: "movie Reducer",
@@ -60,6 +73,7 @@ const movieReducer = createSlice({
     addMovieModal: false,
     editMovieModal: false,
     addMovieLoading: false,
+    deleteLoading: false,
     tripCode: true,
   },
   reducers: {
@@ -137,6 +151,18 @@ const movieReducer = createSlice({
       })
       .addCase(addNewMovies.rejected, (state, action) => {
         state.addMovieLoading = false;
+        console.log(action.payload);
+      })
+      .addCase(deleteMovies.pending, (state, action) => {
+        state.deleteLoading = true;
+        console.log(action.payload);
+      })
+      .addCase(deleteMovies.fulfilled, (state, action) => {
+        state.deleteLoading = false;
+        console.log(action.payload);
+      })
+      .addCase(deleteMovies.rejected, (state, action) => {
+        state.deleteLoading = false;
         console.log(action.payload);
       });
   },
