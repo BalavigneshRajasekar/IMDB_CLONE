@@ -49,6 +49,18 @@ class MovieService {
       throw new Error(e.message);
     }
   }
+  async deleteMovies(id) {
+    try {
+      const movie = await Movies.findByIdAndDelete(id, {
+        new: true,
+        runValidators: true,
+      });
+
+      return movie;
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  }
 }
 
 module.exports = new MovieService();

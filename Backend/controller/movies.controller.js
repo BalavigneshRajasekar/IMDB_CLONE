@@ -154,6 +154,18 @@ class MovieController {
       res.status(500).json({ message: "server error", error: e.message });
     }
   }
+
+  async deleteMovie() {
+    const { id } = req.params;
+    try {
+      const deletedMovie = await movieService.deleteMovies(id);
+      res
+        .status(200)
+        .json({ message: "movie Deleted success", movie: deletedMovie });
+    } catch (e) {
+      res.status(500).json({ message: "server error", error: e.message });
+    }
+  }
 }
 
 module.exports = new MovieController();
