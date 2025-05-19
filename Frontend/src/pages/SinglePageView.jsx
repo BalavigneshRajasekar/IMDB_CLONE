@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   deleteMovies,
   getSingleMovies,
+  handleLoginModal,
   removeSingleMovie,
 } from "../store/movieReducer";
 import { FaStar } from "react-icons/fa6";
@@ -82,7 +83,12 @@ function SinglePageView() {
             </div>
 
             <div className="mt-3 flex gap-3">
-              <button className="bg-yellow-500" onClick={edit}>
+              <button
+                className="bg-yellow-500"
+                onClick={dispatch(
+                  handleLoginModal({ type: "Edit", data: true })
+                )}
+              >
                 Edit
               </button>
               <button
