@@ -1,6 +1,15 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 
 function EditMovie() {
+  const dispatch = useDispatch();
+  const submit = async () => {
+    try {
+      dispatch();
+    } catch (e) {
+      alert(e);
+    }
+  };
   return (
     <div>
       <Form onFinish={submit}>
