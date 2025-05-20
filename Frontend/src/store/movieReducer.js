@@ -62,7 +62,21 @@ export const deleteMovies = createAsyncThunk(
     }
   }
 );
+export const editMovies = createAsyncThunk(
+  "deleteMovies",
+  async (id, value, thunkAPI) => {
+    try {
+      const response = await axiosInstance.delete(
+        `/api/movies/delete/movies/${id}`
+      );
+      console.log(response);
 
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
 const movieReducer = createSlice({
   name: "movie Reducer",
   initialState: {
