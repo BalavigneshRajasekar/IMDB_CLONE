@@ -92,8 +92,15 @@ class MovieController {
   }
   async editMovies(req, res) {
     const movieId = req.params.id;
-    const { movieName, releaseYear, description, actors, producers, ratings } =
-      req.body;
+    const {
+      movieName,
+      releaseYear,
+      description,
+      actors,
+      producers,
+      ratings,
+      movieImage,
+    } = req.body;
     try {
       if (
         !movieName &&
@@ -142,7 +149,7 @@ class MovieController {
         releaseYear: releaseYear,
         ratings: ratings,
         description: description,
-        movieImage: "movie",
+        movieImage: movieImage ? movieImage : "null",
         actors: actorIds,
         producers: producerIds,
       });
