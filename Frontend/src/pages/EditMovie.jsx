@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { Form, Input } from "antd";
 function EditMovie() {
   const { singleMovie } = useSelector((store) => store.movie);
   const dispatch = useDispatch();

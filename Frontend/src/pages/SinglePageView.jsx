@@ -85,9 +85,9 @@ function SinglePageView() {
             <div className="mt-3 flex gap-3">
               <button
                 className="bg-yellow-500"
-                onClick={dispatch(
-                  handleLoginModal({ type: "Edit", data: true })
-                )}
+                onClick={() =>
+                  dispatch(handleLoginModal({ type: "Edit", data: true }))
+                }
               >
                 Edit
               </button>
