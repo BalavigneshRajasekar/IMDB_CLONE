@@ -67,7 +67,7 @@ export const editMovies = createAsyncThunk(
   async (id, value, thunkAPI) => {
     try {
       const response = await axiosInstance.delete(
-        `/api/movies/delete/movies/${id}`
+        `/api/movies/edit/movies/${id}`
       );
       console.log(response);
 

@@ -27,6 +27,7 @@ function Modal() {
         {isLoginModal && <Login />}
         {isSignUpModal && <Signup />}
         {addMovieModal && <AddMovie />}
+        {}
         {(loading || addMovieLoading) && (
           <div className="loading">
             <Loading></Loading>

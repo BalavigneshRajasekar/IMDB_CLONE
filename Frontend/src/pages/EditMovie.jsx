@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function EditMovie() {
+  const { singleMovie } = useSelector((store) => store.movie);
   const dispatch = useDispatch();
   const submit = async () => {
     try {
