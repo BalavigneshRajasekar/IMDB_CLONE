@@ -8,8 +8,8 @@ function EditMovie() {
   const submit = async () => {
     try {
       dispatch();
-    } catch (e) {
-      console.log(e);
+    } catch (e) 
+      console.log(e+"o");
       
       alert(e);
     }
