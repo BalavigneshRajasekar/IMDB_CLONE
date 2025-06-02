@@ -9,7 +9,7 @@ function EditMovie() {
     try {
       dispatch();
     } catch (e) {
-      console.log("error in edit");
+      console.log("error in editimg");
       console.log(e);
 
       alert(e);
